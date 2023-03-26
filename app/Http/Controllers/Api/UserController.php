@@ -7,6 +7,8 @@ use App\Http\Requests\Api\UserStoreRequest;
 use App\Http\Requests\Api\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends ApiController
 {
@@ -29,7 +31,10 @@ class UserController extends ApiController
      */
     public function store(UserStoreRequest $request)
     {
-        $user = User::create($request->safe()->only(['name', 'email', 'password', 'role']));
+        $validatedInputs = $request->safe()->only(['name', 'email', 'password', 'role']);
+        $validatedInputs['password'] = Hash::make($validatedInputs['password']);
+
+        $user = User::create($validatedInputs);
 
         $user->assignRole($request->role);
 
@@ -49,7 +54,13 @@ class UserController extends ApiController
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->safe()->only(['name', 'email', 'password', 'role']));
+        $validatedInputs = $request->safe()->only(['name', 'email', 'password', 'role']);
+
+        if (Arr::exists($validatedInputs, 'password')) {
+            $validatedInputs['password'] = Hash::make($validatedInputs['password']);
+        }
+
+        $user->update($validatedInputs);
 
         if ($request->role) {
             $user->assignRole($request->role);
