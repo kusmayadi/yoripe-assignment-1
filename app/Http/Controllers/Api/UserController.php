@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Api\UserStoreRequest;
+use App\Http\Requests\Api\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,9 +27,11 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
         $user = User::create($request->all());
+
+        $user->assignRole($request->role);
 
         return $this->respondOkWithData($user);
     }
@@ -43,9 +47,14 @@ class UserController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $user->update($request->all());
+
+        if ($request->role) {
+            $user->assignRole($request->role);
+        }
+
         $user->refresh();
 
         return $this->respondOkWithData($user);
