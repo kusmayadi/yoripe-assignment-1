@@ -36,6 +36,8 @@ class UserSeeder extends Seeder
                 'email' => 'user@yoripe.com',
                 'password' => Hash::make('JustOrdinaryUser#1')
             ]);
+
+            $user->assignRole('user');
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Post;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,8 @@ class PostTest extends TestCase
     {
         parent::setup();
 
+        $this->seed(RoleSeeder::class);
+
         $email = 'user@yoripe.com';
         $password = 'simplepassword';
 
@@ -25,6 +28,8 @@ class PostTest extends TestCase
             'email' => $email,
             'password' => Hash::make($password)
         ]);
+
+        $this->user->assignRole('user');
 
         $responseLogin = $this->post('/api/login', [
             'email' => $email,
