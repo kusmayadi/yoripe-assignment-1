@@ -28,7 +28,7 @@ class PostController extends ApiController
      */
     public function store(PostRequest $request)
     {
-        $post = Post::create($request->all());
+        $post = Post::create($request->safe()->only(['title', 'content', 'status']));
 
         return $this->respondOkWithData($post);
     }
@@ -46,7 +46,7 @@ class PostController extends ApiController
      */
     public function update(PostRequest $request, Post $post)
     {
-        $post->update($request->all());
+        $post->update($request->safe()->only(['title', 'content', 'status']));
 
         $post->refresh();
 

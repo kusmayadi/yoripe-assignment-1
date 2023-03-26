@@ -94,9 +94,9 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['message', 'errors', 'data']);
 
-        $this->assertEquals($title, $response->json('data')['title']);
-        $this->assertEquals($content, $response->json('data')['content']);
-        $this->assertEquals($status, $response->json('data')['status']);
+        $this->assertEquals($title, $response->json('data.title'));
+        $this->assertEquals($content, $response->json('data.content'));
+        $this->assertEquals($status, $response->json('data.status'));
 
         $this->assertDatabaseHas('posts', [
             'user_id' => $this->user->id,
@@ -122,7 +122,7 @@ class PostTest extends TestCase
             ]
         );
 
-        $id = $responseCreate->json('data')['id'];
+        $id = $responseCreate->json('data.id');
 
         $response = $this
             ->withToken($this->accessToken)
@@ -131,9 +131,9 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['message', 'errors', 'data']);
 
-        $this->assertEquals($title, $response->json('data')['title']);
-        $this->assertEquals($content, $response->json('data')['content']);
-        $this->assertEquals($status, $response->json('data')['status']);
+        $this->assertEquals($title, $response->json('data.title'));
+        $this->assertEquals($content, $response->json('data.content'));
+        $this->assertEquals($status, $response->json('data.status'));
     }
 
     public function test_update(): void
@@ -151,7 +151,7 @@ class PostTest extends TestCase
             ]
         );
 
-        $id = $responseCreate->json('data')['id'];
+        $id = $responseCreate->json('data.id');
 
         $updatedTitle = fake()->words(3, true);
         $updatedContent = fake()->paragraphs(3, true);
@@ -168,9 +168,9 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['message', 'errors', 'data']);
 
-        $this->asserTEquals($updatedTitle, $response->json('data')['title']);
-        $this->assertEquals($updatedContent, $response->json('data')['content']);
-        $this->assertEquals($updatedStatus, $response->json('data')['status']);
+        $this->asserTEquals($updatedTitle, $response->json('data.title'));
+        $this->assertEquals($updatedContent, $response->json('data.content'));
+        $this->assertEquals($updatedStatus, $response->json('data.status'));
 
         $this->assertDatabaseHas('posts', [
             'user_id' => $this->user->id,
@@ -196,7 +196,7 @@ class PostTest extends TestCase
             ]
         );
 
-        $id = $responseCreate->json('data')['id'];
+        $id = $responseCreate->json('data.id');
 
         $response = $this->delete('/api/posts/' . $id);
 

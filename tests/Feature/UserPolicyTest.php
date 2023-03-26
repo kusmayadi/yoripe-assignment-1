@@ -51,13 +51,15 @@ class UserPolicyTest extends TestCase
         $name = fake()->name();
         $email = fake()->unique()->safeEmail();
         $password = 'password';
+        $role = fake()->randomElement(['user', 'manager', 'admin']);
 
         $responseCreate = $this
             ->actingAs($this->admin)
             ->post('/api/users', [
                 'name' => $name,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role' => $role
             ]
         );
 
@@ -91,13 +93,15 @@ class UserPolicyTest extends TestCase
         $name = fake()->name();
         $email = fake()->unique()->safeEmail();
         $password = 'password';
+        $role = fake()->randomElement(['user', 'manager', 'admin']);
 
         $responseCreate = $this
             ->actingAs($this->manager)
             ->post('/api/users', [
                 'name' => $name,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role' => $role
             ]
         );
 
@@ -108,7 +112,8 @@ class UserPolicyTest extends TestCase
             ->post('/api/users', [
                 'name' => $name,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role' => $role
             ]
         );
 
@@ -140,13 +145,15 @@ class UserPolicyTest extends TestCase
         $name = fake()->name();
         $email = fake()->unique()->safeEmail();
         $password = 'password';
+        $role = fake()->randomElement(['user', 'manager', 'admin']);
 
         $responseCreate = $this
             ->actingAs($this->user)
             ->post('/api/users', [
                 'name' => $name,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role' => $role
             ]
         );
 
@@ -157,7 +164,8 @@ class UserPolicyTest extends TestCase
             ->post('/api/users', [
                 'name' => $name,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role' => $role
             ]
         );
 

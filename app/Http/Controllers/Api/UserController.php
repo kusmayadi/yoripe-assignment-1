@@ -29,7 +29,7 @@ class UserController extends ApiController
      */
     public function store(UserStoreRequest $request)
     {
-        $user = User::create($request->all());
+        $user = User::create($request->safe()->only(['name', 'email', 'password', 'role']));
 
         $user->assignRole($request->role);
 
@@ -49,7 +49,7 @@ class UserController extends ApiController
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->all());
+        $user->update($request->safe()->only(['name', 'email', 'password', 'role']));
 
         if ($request->role) {
             $user->assignRole($request->role);
