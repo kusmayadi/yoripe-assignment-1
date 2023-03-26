@@ -48,7 +48,7 @@ class ApiController extends Controller
 
     public function respondForbidden()
     {
-        $this->status = 401;
+        $this->status = 403;
         $this->message = 'Forbidden';
 
         return $this->respond();
