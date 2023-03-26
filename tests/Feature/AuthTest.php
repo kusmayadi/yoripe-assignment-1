@@ -27,8 +27,12 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonCount(3);
-        $response->assertJsonStructure(['message', 'access_token', 'token_type']);
+        $response->assertJsonStructure(['message', 'errors', 'data']);
+
+        $data = $response->json('data');
+
+        $this->assertEquals('Bearer', $response->json('data.token_type'));
+        $this->assertArrayHasKey('access_token', $data);
     }
 
     public function test_logout(): void
@@ -46,7 +50,7 @@ class AuthTest extends TestCase
 
         $responseLogin->assertStatus(200);
 
-        $token = $responseLogin->json('access_token');
+        $token = $responseLogin->json('data.access_token');
 
         $responseLogout = $this->withToken($token)->post('/api/logout');
 

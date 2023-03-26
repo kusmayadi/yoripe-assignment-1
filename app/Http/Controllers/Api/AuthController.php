@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
     public function login(Request $request)
     {
@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
+        return $this->respondOkWithData([
             'message' => 'Login success',
             'access_token' => $token,
             'token_type' => 'Bearer'
@@ -32,8 +32,8 @@ class AuthController extends Controller
     {
         Auth::user()->tokens()->delete();
 
-        return response()->json([
-            'message' => 'Successfully logout'
-        ]);
+        $this->message = 'Successfully logout';
+        $this->status = 200;
+        return $this->respond();
     }
 }

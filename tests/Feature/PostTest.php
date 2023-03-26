@@ -36,7 +36,7 @@ class PostTest extends TestCase
             'password' => $password
         ]);
 
-        $this->accessToken = $responseLogin->json('access_token');
+        $this->accessToken = $responseLogin->json('data.access_token');
 
     }
 

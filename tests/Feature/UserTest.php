@@ -34,7 +34,7 @@ class UserTest extends TestCase
 
         $loginAdmin = $this->post('/api/login', $adminCredentials);
 
-        $this->accessToken = $loginAdmin->json('access_token');
+        $this->accessToken = $loginAdmin->json('data.access_token');
     }
 
     public function test_index(): void
