@@ -29,6 +29,8 @@ class UserTest extends TestCase
             'password' => Hash::make($adminCredentials['password'])
         ]);
 
+        $admin->assignRole('admin');
+
         $loginAdmin = $this->post('/api/login', $adminCredentials);
 
         $this->accessToken = $loginAdmin->json('access_token');
