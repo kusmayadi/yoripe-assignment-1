@@ -23,6 +23,14 @@
 5. Run composer install to install packages
 
     `composer install`
+    
+6. Run migrations
+
+    `php artisan migrate`
+    
+7. Run seeder
+
+    `php artisan db:seed`
 
 ## Tests
 
